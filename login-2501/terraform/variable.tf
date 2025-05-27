@@ -1,0 +1,79 @@
+# Variables
+
+# AWS Access Key ID
+variable aws_access_key {
+  description = "Please Input AWS Access Key ID"
+}
+
+# AWS Secret Key ID
+variable aws_secret_key {
+  description = "Please Input AWS Secret Key ID"
+}
+# VPC CIDR
+variable vpc_cidr {
+  description = "Please Input VPC CIDR"
+}
+
+# VPC Tenancy
+variable vpc_tenancy {
+  default = "default"
+}
+
+# VPC Name
+variable vpc_name {
+  description = "Please Input VPC Name"
+}
+# VPC Public Subnets
+variable public_subnets_cidrs {
+  description = "Please Input Subnet Details"
+  type = map(string)
+  default = {
+    frontend = "10.0.0.0/24"
+    backend = "10.0.1.0/24"
+    loadbalancer = "10.0.2.0/24"
+  }
+}
+# VPC Public Subnets
+variable private_subnets_cidrs {
+  description = "Please Input Subnet Details"
+  type = map(string)
+  default = {
+    database = "10.0.3.0/24"
+    cache = "10.0.4.0/24"
+  }
+}
+# Variable For Security Group - Frontend
+variable "login_fe_inbound_ports" {
+  type = list(object({
+    port = number
+    cidr = string
+    
+  }))
+  default = [
+  { port = 22, cidr = "0.0.0.0/0"},
+  { port = 80, cidr = "0.0.0.0/0"},
+  ]
+}
+
+# Variable For Security Group - Backend
+variable "login_api_inbound_ports" {
+  type = list(object({
+    port = number
+    cidr = string
+  }))
+  default = [
+  { port = 22, cidr = "0.0.0.0/0"},
+  { port = 8080, cidr = "0.0.0.0/0"},
+  ]
+}
+# Variable For Security Group - Database
+variable "login_db_inbound_ports" {
+  type = list(object({
+    port = number
+    cidr = string
+  }))
+  default = [
+  { port = 22, cidr = "0.0.0.0/0"},
+  { port = 5432, cidr = "0.0.0.0/0"},
+  ]
+}
